@@ -1,2 +1,2 @@
-jupyter
-pygame
+jupyter 1.0.0
+pygame 2.0.1
