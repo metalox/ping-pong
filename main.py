@@ -1,5 +1,6 @@
 # Import the pygame library and initialise the game engine
 import pygame
+from random import randint
 from modules.paddle import Paddle
 from modules.ball import Ball
 
@@ -47,19 +48,30 @@ clock = pygame.time.Clock()
 # Initialise player scrores
 scoreA = 0
 scoreB = 0
-
+         
 # -------- Main Program Loop --------
 while carryOn:
     # --- Main event loop
     for event in pygame.event.get(): # User did something
+        
         if event.type == pygame.QUIT: # If user clicked close
             carryOn = False # Flag that we are done, so we exit this loop
         elif event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_SPACE:
+            # ---- serve the ball - if users presses B
+            if event.key==pygame.K_b:
+                if ball.velocity[0] == 0:
+                    ball.velocity = [randint(6,8),randint(-8,8)]
+           # ---- pasue - if users presses space bar
+            elif event.key==pygame.K_SPACE:
                 while True: # Infinite loop that will be broken when the user presses space again
                     event = pygame.event.wait()
-                    if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                        break #Exit infinite loop
+                    # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE: # sapce bar to exit infinite loop
+                            break
+                        elif event.key == pygame.K_x: # x key to exit infinite loop and quit
+                            carryOn = False
+                            break
             elif event.key==pygame.K_x: # Pressing the x key will quit the game
                 carryOn = False
 
@@ -67,13 +79,13 @@ while carryOn:
     # Player A:  Q/A - Player B: P/L
     keys = pygame.key.get_pressed()
     if keys[pygame.K_q]:
-        paddleA.moveUp(10)
+        paddleA.moveUp(5)
     if keys[pygame.K_a]:
-        paddleA.moveDown(10)
+        paddleA.moveDown(5)
     if keys[pygame.K_p]:
-        paddleB.moveUp(10)
+        paddleB.moveUp(5)
     if keys[pygame.K_l]:
-        paddleB.moveDown(10)
+        paddleB.moveDown(5)
 
     # --- Game Logic should go here...
     all_sprites_list.update()
